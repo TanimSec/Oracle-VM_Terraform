@@ -1,0 +1,24 @@
+# Terraform provider binaries and working directory
+**/.terraform/
+
+# Terraform state and sensitive variable files
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Terraform crash logs and local overrides
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Secrets and private keys
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
