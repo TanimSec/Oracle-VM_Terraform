@@ -26,10 +26,6 @@ variable "ssh_public_key" {
   description = "Contents of SSH public key (.pub), never private key"
   type        = string
 }
-variable "ssh_ingress_cidr" {
-  description = "Your public IP/32 for SSH access"
-  type        = string
-}
 variable "instance_name" {
   type    = string
   default = "dokploy-server"
@@ -53,4 +49,8 @@ variable "memory_gbs" {
 variable "boot_volume_gbs" {
   type    = number
   default = 47
+}
+variable "allowed_admin_ips" {
+  description = "Public IP CIDRs allowed to access SSH and the Dokploy dashboard"
+  type        = list(string)
 }

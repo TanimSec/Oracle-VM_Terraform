@@ -31,15 +31,20 @@ resource "oci_core_security_list" "dokploy" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_vcn.dokploy.id
   display_name   = "dokploy-security-list"
-  ingress_security_rules {
-    protocol = "6"
-    source   = var.ssh_ingress_cidr
-    tcp_options {
-      min = 22
-      max = 22
+
+  dynamic "ingress_security_rules" {
+    for_each = var.allowed_admin_ips
+    content {
+      protocol = "6"
+      source   = ingress_security_rules.value
+      tcp_options {
+        min = 22
+        max = 22
+      }
+      description = "SSH restricted to admin IP"
     }
-    description = "SSH restricted to your public IP"
   }
+
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -49,6 +54,7 @@ resource "oci_core_security_list" "dokploy" {
     }
     description = "HTTP"
   }
+
   ingress_security_rules {
     protocol = "6"
     source   = "0.0.0.0/0"
@@ -59,15 +65,19 @@ resource "oci_core_security_list" "dokploy" {
     description = "HTTPS"
   }
 
-  ingress_security_rules {
-    protocol = "6"
-    source   = var.ssh_ingress_cidr
-    tcp_options {
-      min = 3000
-      max = 3000
+  dynamic "ingress_security_rules" {
+    for_each = var.allowed_admin_ips
+    content {
+      protocol = "6"
+      source   = ingress_security_rules.value
+      tcp_options {
+        min = 3000
+        max = 3000
+      }
+      description = "Dokploy dashboard - restricted to admin IP"
     }
-    description = "Dokploy dashboard - restricted to your public IP"
   }
+
   egress_security_rules {
     protocol    = "all"
     destination = "0.0.0.0/0"
@@ -107,7 +117,7 @@ resource "oci_core_instance" "dokploy" {
     source_id               = var.image_ocid
     boot_volume_size_in_gbs = var.boot_volume_gbs
   }
-  metadata = { ssh_authorized_keys = var.ssh_public_key }
+  metadata             = { ssh_authorized_keys = var.ssh_public_key }
   preserve_boot_volume = false
   lifecycle {
     precondition {

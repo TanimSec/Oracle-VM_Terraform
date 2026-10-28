@@ -6,7 +6,7 @@ This Terraform configuration creates a VCN, internet gateway, public route table
 - Terraform cannot bypass Oracle A1 capacity errors. If Mumbai has no A1 capacity, apply will fail too.
 - Verify Always Free eligibility and current limits before creating resources. Intended target is up to 2 OCPUs, 12 GB RAM, and a 47 GB boot volume, assuming no other resources consume the free allowance.
 - This creates a new VCN. If you already made a VCN/subnet manually, either reuse that network by modifying this config or ensure the old unused network is not left unnecessarily.
-- SSH is restricted to `ssh_ingress_cidr`; set it to your public IPv4 address plus `/32`.
+- SSH and Dokploy dashboard (port 3000) are restricted to `allowed_admin_ips`; set it to a list of your public IPv4 addresses plus `/32`.
 - Never put your SSH private key in `ssh_public_key`. Only the `.pub` public key goes there. Keep `terraform.tfvars` and `terraform.tfstate` private.
 
 ## 1. Set up OCI API signing credentials
@@ -19,7 +19,7 @@ OCI API signing keys: https://docs.oracle.com/en-us/iaas/Content/API/Concepts/ap
 In Mumbai, open Compute → Instances → Create instance → Change image and choose **Canonical Ubuntu 24.04 Minimal aarch64**. Copy its image OCID. A1 is ARM64; do not use an x86 image.
 
 ## 3. Configure values
-Copy `terraform.tfvars.example` to `terraform.tfvars`. Replace all placeholders with your actual tenancy/user/fingerprint/compartment values, API key path, image OCID, SSH public key, and your public IP `/32`.
+Copy `terraform.tfvars.example` to `terraform.tfvars`. Replace all placeholders with your actual tenancy/user/fingerprint/compartment values, API key path, image OCID, SSH public key, and your public IP CIDRs in `allowed_admin_ips`.
 
 ## 4. Preview first
 Open PowerShell in this folder and run:

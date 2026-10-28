@@ -6,7 +6,9 @@ region           = "ap-mumbai-1"
 compartment_ocid = "ocid1.compartment.oc1..REPLACE_ME"
 image_ocid       = "ocid1.image.oc1.ap-mumbai-1.REPLACE_ME"
 ssh_public_key   = "ssh-rsa AAAA...REPLACE_ME"
-ssh_ingress_cidr = "REPLACE_WITH_YOUR_PUBLIC_IP/32"
+allowed_admin_ips = [
+  "REPLACE_WITH_YOUR_PUBLIC_IP/32"
+]
 instance_name    = "dokploy-server"
 vcn_cidr         = "10.0.0.0/16"
 subnet_cidr      = "10.0.0.0/24"
