@@ -1,4 +1,4 @@
-# Oracle Cloud Always Free Dokploy VM — Terraform starter
+# Oracle Cloud — Terraform starter
 
 This Terraform configuration creates a VCN, internet gateway, public route table, subnet, security list, and VM.Standard.A1.Flex instance. It does not install Dokploy automatically.
 
